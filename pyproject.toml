@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "🧩 Безопасная вставка SELECT-запросов в ClickHouse с валидацией схемы"
 readme = "README.md"
 license = { text = "MIT" }
-authors = [{ name = "Your Name", email = "you@example.com" }]
+authors = [{ name = "castengine", email = "k.n.gorelov@gmail.com" }]
 dependencies = [
     "clickhouse-connect>=0.6.5",
     "pydantic>=1.10.0",
@@ -23,3 +23,7 @@ bd-insert = "clickhouse_insert.cli:main"
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["clickhouse_insert"]
+include-package-data = false
