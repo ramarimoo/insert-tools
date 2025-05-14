@@ -1,5 +1,5 @@
 [project]
-name = "bd-insert-tools"
+name = "insert-tools"
 version = "1.0.0"
 description = "🧩 Безопасная вставка SELECT-запросов в ClickHouse с валидацией схемы"
 readme = "README.md"
@@ -14,8 +14,8 @@ dependencies = [
 requires-python = ">=3.8"
 
 [project.urls]
-Homepage = "https://github.com/your-username/bd-insert-tools"
-Issues = "https://github.com/your-username/bd-insert-tools/issues"
+Homepage = "https://github.com/castengine/insert-tools"
+Issues = "https://github.com/castengine/insert-tools/issues"
 
 [project.scripts]
 bd-insert = "clickhouse_insert.cli:main"
