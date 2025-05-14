@@ -15,6 +15,10 @@ jobs:
         image: clickhouse/clickhouse-server:latest
         ports:
           - 8123:8123
+        env:
+          CLICKHOUSE_USER: default
+          CLICKHOUSE_PASSWORD: admin123
+          CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
         options: >-
           --health-cmd "wget --spider -q http://localhost:8123 || exit 1"
           --health-interval 10s
