@@ -1,14 +1,17 @@
-name: Python CI
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      clickhouse:
+        image: clickhouse/clickhouse-server:latest
+        ports:
+          - 8123:8123
+        options: >-
+          --health-cmd "wget --spider -q http://localhost:8123 || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
       - uses: actions/checkout@v3
