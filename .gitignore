@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*.log
+*.zip
+*.egg-info/
+insert_tools/.pytest_cache/
+insert_tools/.mypy_cache/
