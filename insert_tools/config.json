@@ -1,0 +1,10 @@
+{
+  "host": "localhost",
+  "port": 8123,
+  "user": "default",
+  "password": "",
+  "database": "prod",
+  "target_table": "events_clean",
+  "select_sql": "SELECT id, name, created_at FROM staging.tmp_events WHERE created_at >= today()",
+  "allow_type_cast": true
+}

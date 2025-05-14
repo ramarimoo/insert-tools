@@ -1,0 +1,4 @@
+pytest
+pytest-docker
+mypy
+ruff

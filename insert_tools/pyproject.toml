@@ -1,0 +1,25 @@
+[project]
+name = "bd-insert-tools"
+version = "1.0.0"
+description = "🧩 Безопасная вставка SELECT-запросов в ClickHouse с валидацией схемы"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Your Name", email = "you@example.com" }]
+dependencies = [
+    "clickhouse-connect>=0.6.5",
+    "pydantic>=1.10.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/your-username/bd-insert-tools"
+Issues = "https://github.com/your-username/bd-insert-tools/issues"
+
+[project.scripts]
+bd-insert = "clickhouse_insert.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

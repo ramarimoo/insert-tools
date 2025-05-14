@@ -1,0 +1,41 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.so
+
+# Logs
+*.log
+insert.log
+
+# Virtual environment
+.env
+.env.*
+.venv/
+venv/
+
+# Test & coverage
+htmlcov/
+.tox/
+.coverage
+coverage.xml
+pytest_cache/
+
+# Packaging
+dist/
+build/
+*.egg-info/
+
+# Docker volumes / data
+clickhouse_data/
+
+# IDE/editor configs
+*.idea/
+.vscode/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
