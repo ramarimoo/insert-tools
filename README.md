@@ -1,6 +1,6 @@
 # 🚀 Insert Tools
 
-[![CI](https://github.com/ТВОЙ_НИК/insert-tools/actions/workflows/python-ci.yml/badge.svg)](https://github.com/ТВОЙ_НИК/insert-tools/actions)
+🔗 [GitHub: castengine/insert-tools](https://github.com/castengine/insert-tools)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
