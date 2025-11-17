@@ -8,18 +8,26 @@ def rewrite_select_with_cast(select_sql: str,
     """
     Переписывает SELECT-запрос с добавлением CAST(...) там, где типы отличаются и безопасное приведение допустимо.
     """
-    columns = []
-    for col, (src_type, _) in source_schema.items():
-        tgt_type, _ = target_schema.get(col, (src_type, False))
+    new_columns = []
+    for col_name, (src_type, _) in source_schema.items():
+        tgt_type, _ = target_schema.get(col_name, (src_type, False))
+
         if src_type != tgt_type:
-            columns.append(f"CAST({col} AS {tgt_type}) AS {col}")
+            # CAST(col_name AS target_type) AS col_name
+            new_columns.append(f"CAST({col_name} AS {tgt_type}) AS {col_name}")
         else:
-            columns.append(col)
+            # if =type just add column
+            new_columns.append(col_name)
 
-    # Пытаемся заменить только список колонок в SELECT (не FROM, не WHERE)
-    match = re.match(r"\s*SELECT\s+(.+?)\s+FROM\s+(.+)", select_sql, re.IGNORECASE | re.DOTALL)
+    # if schema is empty (even if it is not logical), do not return empty list
+    if not new_columns:
+        raise ValueError("source_schema empty. New SELECT list cannot be created.")
+
+    match = re.search(r"FROM\s+.*", select_sql, re.IGNORECASE | re.DOTALL)
+    
     if not match:
-        raise ValueError("Не удалось разобрать SELECT-запрос")
+        raise ValueError("SELECT-Query not splitted: 'FROM' key word couldn't find.")
 
-    col_part, from_part = match.groups()
-    return f"SELECT {', '.join(columns)} FROM {from_part.strip()}"
+    from_part_and_rest = match.group(0).strip()
+    
+    return f"SELECT {', '.join(new_columns)} {from_part_and_rest}"
