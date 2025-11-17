@@ -19,28 +19,45 @@ class InsertConfigModel(BaseModel):
 
 def load_config(path: str) -> InsertConfigModel:
     ext = Path(path).suffix.lower()
+    data: Dict[str, Any] = {}
 
-    if ext == ".json":
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    try:
+        if ext == ".json":
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
 
-    elif ext in (".yaml", ".yml"):
-        with open(path, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
+        elif ext in (".yaml", ".yml"):
+            with open(path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
 
-    elif ext == ".env":
-        load_dotenv(dotenv_path=path)
-        data = {
-            "host": os.getenv("HOST"),
-            "database": os.getenv("DATABASE"),
-            "target_table": os.getenv("TARGET_TABLE"),
-            "select_sql": os.getenv("SELECT_SQL"),
-            "user": os.getenv("USER"),
-            "password": os.getenv("PASSWORD"),
-            "port": int(os.getenv("PORT", 8123)),
-            "allow_type_cast": os.getenv("ALLOW_TYPE_CAST", "false").lower() == "true",
-        }
-    else:
-        raise ValueError(f"Unsupported config format: {ext}")
+        elif ext == ".env":
+            load_dotenv(dotenv_path=path)
 
-    return InsertConfigModel(**data)
+            env_map = {
+                "HOST": "host",
+                "DATABASE": "database",
+                "TARGET_TABLE": "target_table",
+                "SELECT_SQL": "select_sql",
+                "USER": "user",
+                "PASSWORD": "password",
+                "PORT": "port",
+                "ALLOW_TYPE_CAST": "allow_type_cast",
+            }
+            
+            for env_key, model_key in env_map.items():
+                value = os.getenv(env_key)
+                if value is not None:
+                    data[model_key] = value
+
+        else:
+            raise ValueError(f"Unsupported config format: {ext}. Must be .json, .yaml, .yml or .env")
+
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Configuration file not found at: {path}")
+    except (json.JSONDecodeError, yaml.YAMLError) as e:
+        raise ValueError(f"Error parsing config file {path}: {e}")
+
+    try:
+        return InsertConfigModel(**data)
+    except ValidationError as e:
+        raise ValueError(f"Configuration data validation failed for {path}:\n{e}")
