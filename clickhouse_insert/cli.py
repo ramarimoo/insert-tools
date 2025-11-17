@@ -9,12 +9,12 @@ def main():
     from clickhouse_insert import __version__
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.add_argument("--host", type=str, help="Host of the ClickHouse server", required=False)
-    parser.add_argument("--port", type=int, default=8123, help="Port of the ClickHouse server", required=False)
+    parser.add_argument("--port", type=int, default=8123, help="Port of the ClickHouse server", required=True) # Req: True
     parser.add_argument("--user", type=str, help="User for ClickHouse authentication", required=False)
     parser.add_argument("--password", type=str, help="Password for ClickHouse authentication", required=False)
     parser.add_argument("--database", type=str, help="Target database in ClickHouse", required=False)
-    parser.add_argument("--target_table", type=str, help="Target table in ClickHouse", required=False)
-    parser.add_argument("--select_sql", type=str, help="SELECT query to fetch data", required=False)
+    parser.add_argument("--target_table", type=str, help="Target table in ClickHouse", required=True) # Req: True
+    parser.add_argument("--select_sql", type=str, help="SELECT query to fetch data", required=True) # Req. True
     parser.add_argument("--allow_type_cast", action="store_true", help="Allow type casting if needed", required=False)
 
     # Убираем обязательный параметр config для использования параметров CLI напрямую
@@ -30,8 +30,8 @@ def main():
 
     # Включаем подробные логи, если нужно
     if args.verbose:
-        logging.getLogger().setLevel(logging.DEBUG)
-        print("[VERBOSE] Включён режим DEBUG")
+        logging.basicConfig(level=logging.DEBUG, format='%(levelname)s: %(message)s') #Log level and format changed
+        print("[VERBOSE] Включён режим DEBUG") # [VERBOSE] DEBUG mode enableed.
 
     try:
         # Формируем словарь конфигурации
