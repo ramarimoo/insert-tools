@@ -49,7 +49,7 @@ def parse_type(type_str):
 def is_cast_compatible(source_type, target_type):
     compatible_casts = {
         "String": {"UInt32", "UInt64", "Int32", "Int64", "Float32", "Float64"},
-        "Int32": {"UInt32", "Float64"},
+        "Int32": {"UInt32", "Float64"}, # Turning into UInt32 can cause float.
         "Int64": {"UInt64", "Float64"},
         "Float32": {"Float64"},
     }
@@ -61,12 +61,19 @@ def _get_schema(client, source, is_subquery=False):
         query = f"DESCRIBE TABLE ({source} LIMIT 0)"
     else:
         query = f"DESCRIBE TABLE {source}"
-    df = client.query_df(query)
+    
+    try:
+        df = client.query_df(query)
+    except Exception as e:
+        logger.error(f"Şema alınırken hata oluştu (Kaynak: {'Sorgu' if is_subquery else source}): {e}")
+        raise ValueError(f"Şema sorgusu başarısız oldu: {e}")
+
     return {row["name"]: parse_type(row["type"]) for _, row in df.iterrows()}
 
-
 def _validate_schemas(select_schema, target_schema, cfg):
+
     errors = []
+
     for col, (sel_type, sel_nullable) in select_schema.items():
         if col not in target_schema:
             if cfg.strict_column_match:
@@ -76,7 +83,7 @@ def _validate_schemas(select_schema, target_schema, cfg):
         tgt_type, tgt_nullable = target_schema[col]
 
         if sel_type == tgt_type:
-            continue
+            pass # = types
         elif cfg.allow_type_cast and is_cast_compatible(sel_type, tgt_type):
             logger.warning(f"[WARN] Приведение типа: {col} из {sel_type} в {tgt_type}")
         else:
@@ -85,18 +92,31 @@ def _validate_schemas(select_schema, target_schema, cfg):
         if sel_nullable and not tgt_nullable:
             errors.append(f"\n[ERROR] Колонка '{col}': SELECT может содержать NULL, но целевая таблица — NOT NULL")
 
+    if cfg.strict_column_match:
+        select_cols = set(select_schema.keys())
+        target_cols = set(target_schema.keys())
+        missing_cols = target_cols - select_cols
+        
+        if missing_cols:
+            errors.append(f"\n[ERROR] STRICT: Отсутствуют целевые колонки в SELECT: {', '.join(missing_cols)}")
+
     if errors:
         raise SchemaMismatchError("Ошибка соответствия схемы:" + "".join(errors))
 
 
 def run_insert(cfg: InsertConfig):
-    client = get_client(
-        host=cfg.host,
-        port=cfg.port,
-        username=cfg.user,
-        password=cfg.password,
-        database=cfg.database
-    )
+    
+    ry:
+        client = get_client(
+            host=cfg.host,
+            port=cfg.port,
+            username=cfg.user,
+            password=cfg.password,
+            database=cfg.database
+        )
+    except Exception as e:
+        logger.error(f"Не удалось установить соединение с ClickHouse: {e}")
+        raise
 
     logger.info("Получаем схему целевой таблицы...")
     target_schema = _get_schema(client, f"{cfg.database}.{cfg.target_table}")
